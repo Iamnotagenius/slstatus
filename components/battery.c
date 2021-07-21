@@ -50,9 +50,9 @@
 			char *state;
 			char *symbol;
 		} map[] = {
-			{ "Charging",    "+" },
-			{ "Discharging", "-" },
-			{ "Full",        "o" },
+			{ "Charging",    " " },
+			{ "Discharging", "" },
+			{ "Full",        " " },
 		};
 		size_t i;
 		char path[PATH_MAX], state[12];
@@ -72,7 +72,39 @@
 		}
 		return (i == LEN(map)) ? "?" : map[i].symbol;
 	}
+	
+	const char *
+	battery_icon(const char *bat)
+	{
+		static struct {
+			char *icon;
+			int milestone;
+		} map[] = {
+			{ "",  10 },
+			{ "",	40 },
+			{ "",  60 },
+			{ "", 	90 },
+			{ "", 	101 },
+		};
+		
+		int perc, i;
+		char path[PATH_MAX];
 
+		if (esnprintf(path, sizeof(path),
+		              "/sys/class/power_supply/%s/capacity", bat) < 0) {
+			return NULL;
+		}
+		if (pscanf(path, "%d", &perc) != 1) {
+			return NULL;
+		}
+
+		for (i = 0; i < LEN(map); i++) {
+			if (map[i].milestone >= perc) {
+				return map[i].icon;
+			}
+		}
+	}
+	
 	const char *
 	battery_remaining(const char *bat)
 	{

@@ -81,7 +81,11 @@ end:
 	XkbFreeKeyboard(desc, XkbSymbolsNameMask, 1);
 	if (XCloseDisplay(dpy)) {
 		warn("XCloseDisplay: Failed to close display");
+	};
+	/* I like when keymap is in uppercase ;) */
+	for (int i = 0; layout[i] != '\0'; i++) {
+		layout[i] = layout[i] - 32;
+	
 	}
-
 	return layout;
 }
