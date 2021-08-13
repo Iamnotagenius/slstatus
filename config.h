@@ -66,16 +66,12 @@ static const char unknown_str[] = "n/a";
 static const char sep[] = "  ";
 static const struct arg args[] = {
 	/* function 	format         	argument */
-	{ wifi_perc, 	"[ %s%%]",	"wlan0" },
-	{ separator,	sep,		NULL },
 	{ ram_perc,	"[ %s%% |" ,NULL },
 	{ cpu_perc,	"  %s%%]",	NULL },
 	{ separator,	sep,		NULL },
-	{ battery_icon, "[%s",		"BAPM" },
-	{ battery_perc, " %s%%",	"BAPM" },
-	{ battery_state,"%s]",		"BAPM" },
-	{ separator,	sep,		NULL },
 	{ keymap, 	"[%s]",		NULL },
+	{ separator,	sep,		NULL },
+	{ run_command,	"[ %s]",	"amixer sget Master | awk -F\"[][]\" '/%/ { print $2 }' | head -n1" },
 	{ separator,	sep,		NULL },
 	{ datetime, 	"[%s]",         "%a %d.%m.%y %T" },
 };
