@@ -19,7 +19,7 @@
 			return NULL;
 		}
 
-		return fmt_human(free * 1024, 1024);
+		return fmt_human(free * 1000, 1000);
 	}
 
 	const char *
@@ -55,7 +55,7 @@
 			return NULL;
 		}
 
-		return fmt_human(total * 1024, 1024);
+		return fmt_human(total * 1000, 1000);
 	}
 
 	const char *
@@ -73,8 +73,8 @@
 			return NULL;
 		}
 
-		return fmt_human((total - free - buffers - cached) * 1024,
-		                 1024);
+		return fmt_human((total - free - buffers - cached) * 1000,
+		                 1000);
 	}
 #elif defined(__OpenBSD__)
 	#include <stdlib.h>
@@ -82,8 +82,8 @@
 	#include <sys/types.h>
 	#include <unistd.h>
 
-	#define LOG1024 10
-	#define pagetok(size, pageshift) (size_t)(size << (pageshift - LOG1024))
+	#define LOG1000 10
+	#define pagetok(size, pageshift) (size_t)(size << (pageshift - LOG1000))
 
 	inline int
 	load_uvmexp(struct uvmexp *uvmexp)
@@ -109,7 +109,7 @@
 		if (load_uvmexp(&uvmexp)) {
 			free_pages = uvmexp.npages - uvmexp.active;
 			return fmt_human(pagetok(free_pages, uvmexp.pageshift) *
-			                 1024, 1024);
+			                 1000, 1000);
 		}
 
 		return NULL;
@@ -136,8 +136,8 @@
 
 		if (load_uvmexp(&uvmexp)) {
 			return fmt_human(pagetok(uvmexp.npages,
-			                         uvmexp.pageshift) * 1024,
-			                 1024);
+			                         uvmexp.pageshift) * 1000,
+			                 1000);
 		}
 
 		return NULL;
@@ -150,8 +150,8 @@
 
 		if (load_uvmexp(&uvmexp)) {
 			return fmt_human(pagetok(uvmexp.active,
-			                         uvmexp.pageshift) * 1024,
-			                 1024);
+			                         uvmexp.pageshift) * 1000,
+			                 1000);
 		}
 
 		return NULL;
@@ -173,7 +173,7 @@
 				|| !len)
 			return NULL;
 
-		return fmt_human(vm_stats.t_free * getpagesize(), 1024);
+		return fmt_human(vm_stats.t_free * getpagesize(), 1000);
 	}
 
 	const char *
@@ -186,7 +186,7 @@
 				|| !len)
 			return NULL;
 
-		return fmt_human(npages * getpagesize(), 1024);
+		return fmt_human(npages * getpagesize(), 1000);
 	}
 
 	const char *
@@ -217,6 +217,6 @@
 				|| !len)
 			return NULL;
 
-		return fmt_human(active * getpagesize(), 1024);
+		return fmt_human(active * getpagesize(), 1000);
 	}
 #endif

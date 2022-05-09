@@ -144,3 +144,14 @@ pscanf(const char *path, const char *fmt, ...)
 
 	return (n == EOF) ? -1 : n;
 }
+
+const char *
+read_from(const char *file) {
+    uintmax_t rpm;
+
+    if (pscanf(file, "%ju", &rpm) != 1) {
+        return NULL;
+    }
+
+    return bprintf("%ju", rpm);
+}

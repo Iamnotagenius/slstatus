@@ -63,15 +63,48 @@ static const char unknown_str[] = "n/a";
  * wifi_perc           WiFi signal in percent          interface name (wlan0)
  * wifi_essid          WiFi ESSID                      interface name (wlan0)
  */
-static const char sep[] = "  ";
+static const char sep[] = " │ ";
 static const struct arg args[] = {
 	/* function 	format         	argument */
-	{ ram_perc,	"[ %s%% |" ,NULL },
-	{ cpu_perc,	"  %s%%]",	NULL },
-	{ separator,	sep,		NULL },
-	{ keymap, 	"[%s]",		NULL },
-	{ separator,	sep,		NULL },
-	{ run_command,	"[ %s]",	"amixer sget Master | awk -F\"[][]\" '/%/ { print $2 }' | head -n1" },
-	{ separator,	sep,		NULL },
-	{ datetime, 	"[%s]",         "%a %d.%m.%y %T" },
+	{ keymap, 	        " %s",		NULL },
+	{ separator,	    sep,		NULL },
+    { run_command,      " %s",	    "amixer sget Master | awk -F\"[][]\" '/%/ { print $2 }' | head -n1" },
+	{ separator,	    sep,		NULL },
+	{ datetime, 	    "%s",       "%a %d.%m.%y %T" },
+    { separator,        ";",        NULL },
+
+    { separator,        "CPU: ",    NULL },
+	{ cpu_perc,	        "%s%% [",   NULL },
+    { cpu_freq,         " %sHz",   NULL },
+    { separator,        sep,        NULL },
+    { temp,             " %s °C",  "/sys/class/hwmon/hwmon3/temp2_input" },
+    { separator,        sep,        NULL },
+    { read_from,        " %s RPM", "/sys/class/hwmon/hwmon3/fan2_input" },
+    { separator,        "]",        NULL },
+    { separator,        sep,        NULL },
+
+    { separator,        "RAM: ",    NULL },
+    { ram_perc,         "%s%% ",   NULL },
+    { ram_used,         "[%s",       NULL },
+    { separator,        "╱",        NULL },
+    { ram_total,         "%s]",   NULL },
+    { separator,        sep,        NULL },
+
+    { separator,        "GPU: ",    NULL },
+    { gpu_perc, "%s%% [",   "fb0" },
+    { separator,        "VRAM: ",   NULL },
+    { gpu_vram_used,    "%sB",       "fb0"},
+    { separator,        "╱",        NULL },
+    { gpu_vram_total,   "%sB",       "fb0"},
+    { separator,        " (",       NULL },
+    { gpu_mem_perc,     "%s%%)",    "fb0"},
+    { separator,        sep,        NULL },
+    { temp,             " %s °C",  "/sys/class/hwmon/hwmon2/temp1_input" },
+    { separator,        sep,        NULL },
+    { read_from,        " %s RPM", "/sys/class/hwmon/hwmon2/fan1_input" },
+    { separator,        "]",        NULL },
+    { separator,        sep,        NULL },
+
+	{ run_command,      " %s",     "if /home/iamnotagenius/scripts/playing.sh > /dev/null; then echo \"$(/home/iamnotagenius/scripts/playing.sh)\"; else echo 'Nothing is playing'; fi"	 },
+    { run_command,        " ( %s)",   "echo $(mpc volume | cut -d' ' -f2)" },
 };

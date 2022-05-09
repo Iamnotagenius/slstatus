@@ -22,6 +22,12 @@ const char *disk_used(const char *path);
 /* entropy */
 const char *entropy(void);
 
+/* gpu */
+const char *gpu_perc(const char *gpu);
+const char *gpu_mem_perc(const char *gpu);
+const char *gpu_vram_used(const char *gpu);
+const char *gpu_vram_total(const char *gpu);
+
 /* hostname */
 const char *hostname(void);
 
@@ -53,6 +59,8 @@ const char *ram_free(void);
 const char *ram_perc(void);
 const char *ram_total(void);
 const char *ram_used(void);
+
+const char *read_from(const char *);
 
 /* run_command */
 const char *run_command(const char *cmd);

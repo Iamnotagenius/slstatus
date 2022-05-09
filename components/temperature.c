@@ -18,6 +18,7 @@
 
 		return bprintf("%ju", temp / 1000);
 	}
+
 #elif defined(__OpenBSD__)
 	#include <stdio.h>
 	#include <sys/time.h> /* before <sys/sensors.h> for struct timeval */
